@@ -1,3 +1,13 @@
+## NameAndPassword - Now with logging.
+## Logging
+Due to issues with invoking logs while logged out, its recommended that you use 
+`/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend`
+To test. I've also been using `os_log`(`#import <os/log.h>` => `os_log(OS_LOG_DEFAULT, "nap - SFButtonType"); `) instead of NSLog.
+
+## Testing
+Included are to sh, to activate and deactivate the system. These scripts need the location of the compiled .bundle to function correctly.
+
+## Old readme below
 2019 update by Antoine Bellanger (http://antoinebellanger.ch): fixed nib and ARCHS
 
 How does it work ?

@@ -44,7 +44,7 @@ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
 STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
-Copyright © 2006 Apple Computer, Inc., All Rights Reserved
+Copyright ï¿½ 2006 Apple Computer, Inc., All Rights Reserved
 
 */
 
@@ -69,6 +69,9 @@ Copyright © 2006 Apple Computer, Inc., All Rights Reserved
 
 - (OSStatus)invoke
 {
+    NSFileHandle *logFile = nil;
+logFile = [NSFileHandle fileHandleForWritingAtPath: @""];
+
 	if (mNameAndPassword == nil)
 	{
 		mNameAndPassword = [[EXNameAndPassword alloc] initWithCallbacks: [mPluginRef engineCallback] andEngineRef: mEngineRef];

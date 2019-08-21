@@ -1,0 +1,1 @@
+{"responseId":"6e7e051b-5a56-4640-a83a-6edc31363b1a","resultCode":5003,"resultString":"Error redirecting to DS login URL, not authenticated.","userString":"Error redirecting to DS login URL, not authenticated.","creationTimestamp":"2019-08-20T12:18:08Z","userLocale":"en_US","requestUrl":"https://developer.apple.com/services-account/download","httpCode":302}

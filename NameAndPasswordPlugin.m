@@ -20,7 +20,7 @@ license, under Apple's copyrights in this original Apple software (the
 Software, with or without modifications, in source and/or binary forms;
 provided that if you redistribute the Apple Software in its entirety and
 without modifications, you must retain this notice and the following
-text and disclaimers in all such redistributions of the Apple Software. 
+text and disclaimers in all such redistributions of the Apple Software.
 Neither the name, trademarks, service marks or logos of Apple Computer,
 Inc. may be used to endorse or promote products derived from the Apple
 Software without specific prior written permission from Apple.  Except
@@ -44,12 +44,13 @@ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
 STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
-Copyright © 2006 Apple Computer, Inc., All Rights Reserved
+Copyright ï¿½ 2006 Apple Computer, Inc., All Rights Reserved
 
 */
 
 #import "NameAndPasswordPlugin.h"
 #import <Security/AuthorizationTags.h>
+    #import <os/log.h>
 
 
 @implementation EXNameAndPassword
@@ -57,6 +58,10 @@ Copyright © 2006 Apple Computer, Inc., All Rights Reserved
 
 - (void)buttonPressed:(SFButtonType)inButtonType
 {
+    os_log(OS_LOG_DEFAULT, "nap - SFButtonType");
+    
+
+
     NSString *userNameString;
     NSString *passwordString;
     
@@ -89,115 +94,134 @@ Copyright © 2006 Apple Computer, Inc., All Rights Reserved
         [self callbacks]->SetContextValue([self engineRef], kAuthorizationEnvironmentUsername, 1, &userNameValue);
         [self callbacks]->SetContextValue([self engineRef], kAuthorizationEnvironmentPassword, 1, &userPasswordValue);
         
+        
+
+
         // allow authorization
         [self callbacks]->SetResult([self engineRef], kAuthorizationResultAllow);
     }
     else if (inButtonType == SFButtonTypeCancel)
     {
         // cancel authorization
-        [self callbacks]->SetResult([self engineRef], kAuthorizationResultUserCanceled); 
+        [self callbacks]->SetResult([self engineRef], kAuthorizationResultUserCanceled);
     }
 }
 
 - (NSView *)firstKeyView
 {
-	// return the appropriate view depending on whether or not identity and credentials
-	// or just credentials are being asked for
-	if (mUseIPView)
-		return mNameTextField;
-	else
-		return mPPasswordSecureTextField;
+    os_log(OS_LOG_DEFAULT, "nap - firstKeyView");
+    
+    // return the appropriate view depending on whether or not identity and credentials
+    // or just credentials are being asked for
+    if (mUseIPView)
+        return mNameTextField;
+    else
+        return mPPasswordSecureTextField;
 }
 
 - (NSView *)firstResponderView
 {
-	NSView					*view;
-	
-	// return the appropriate view depending on whether or not identity and credentials
-	// or just credentials are being asked for
-	if (mUseIPView)
-	{
-		// if the name field doesn't already has a user name, then return the name text field view
-		// otherwise, return the password secure text field
-		if ([[mNameTextField stringValue] length] == 0)
-		{
-			view = mNameTextField;
-		}
-		else
-		{
-			view = mIPPasswordSecureTextField;
-		}
-	}
-	else
-	{
-		view = mPPasswordSecureTextField;
-	}
-	
-	return view;
+    
+    
+//        os_log_t custom = os_log_create("com.clay.demo", "custom");
+
+        os_log(OS_LOG_DEFAULT, "Start");
+//        os_log_info(custom, "Info -  something");
+//        os_log_debug(custom, "Debug -  something");
+//    //    os_log_error(custom, "Error -  something");
+//    //    os_log_fault(custom, "Fault -  something");
+//        os_log(custom, "Default -  something");
+
+    
+    
+    NSView                    *view;
+    
+    // return the appropriate view depending on whether or not identity and credentials
+    // or just credentials are being asked for
+    if (mUseIPView)
+    {
+        // if the name field doesn't already has a user name, then return the name text field view
+        // otherwise, return the password secure text field
+        if ([[mNameTextField stringValue] length] == 0)
+        {
+            view = mNameTextField;
+        }
+        else
+        {
+            view = mIPPasswordSecureTextField;
+        }
+    }
+    else
+    {
+        view = mPPasswordSecureTextField;
+    }
+    
+    return view;
 }
 
 - (NSView *)lastKeyView
 {
-	// return the appropriate view depending on whether or not identity and credentials
-	// or just credentials are being asked for
-	if (mUseIPView)
-		return mIPPasswordSecureTextField;
-	else
-		return mPPasswordSecureTextField;
+    os_log(OS_LOG_DEFAULT, "nap - lastKeyView");
+    // return the appropriate view depending on whether or not identity and credentials
+    // or just credentials are being asked for
+    if (mUseIPView)
+        return mIPPasswordSecureTextField;
+    else
+        return mPPasswordSecureTextField;
 }
 
 - (void)setEnabled:(BOOL)inEnabled
 {
-	// enable or disable the text fields as appropriate
-	[mNameTextField setEnabled: inEnabled];
-	[mIPPasswordSecureTextField setEnabled: inEnabled];
-	[mPPasswordSecureTextField setEnabled: inEnabled];
+    // enable or disable the text fields as appropriate
+    [mNameTextField setEnabled: inEnabled];
+    [mIPPasswordSecureTextField setEnabled: inEnabled];
+    [mPPasswordSecureTextField setEnabled: inEnabled];
 }
 
 - (void)willActivateWithUser:(NSDictionary *)inUserInformation
 {
-	// save the user name and set the name text field
-	mUserName = [[inUserInformation objectForKey: SFAuthorizationPluginViewUserShortNameKey] retain];
-	if (mUserName)
-	{
-		[mNameTextField setStringValue: mUserName];
-	}
+    // save the user name and set the name text field
+    mUserName = [[inUserInformation objectForKey: SFAuthorizationPluginViewUserShortNameKey] retain];
+    if (mUserName)
+    {
+        [mNameTextField setStringValue: mUserName];
+    }
 }
 
 - (NSView*)viewForType:(SFViewType)inType
 {
-	NSView *view = nil;
+    NSView *view = nil;
     
-	// return the appropriate view for the type of view being requested
-	if (inType == SFViewTypeIdentityAndCredentials)
-	{
-		view = mIdentityAndPasswordView;
-		mUseIPView = YES;
-	}
-	else if (inType == SFViewTypeCredentials)
-	{
-		view = mPasswordView;
-		mUseIPView = NO;
-	}
-	
-	return view;
+    // return the appropriate view for the type of view being requested
+    if (inType == SFViewTypeIdentityAndCredentials)
+    {
+        view = mIdentityAndPasswordView;
+        mUseIPView = YES;
+    }
+    else if (inType == SFViewTypeCredentials)
+    {
+        view = mPasswordView;
+        mUseIPView = NO;
+    }
+    
+    return view;
 }
 
 // --------------------------------------------------------------------------------
 - (id)initWithCallbacks:(const AuthorizationCallbacks *)callbacks andEngineRef:(AuthorizationEngineRef)engineRef
 {
-	self = [super initWithCallbacks: callbacks andEngineRef: engineRef];
-	if (self)
-	{
-		// do any additional initialization
-	}
-	return self;
+    self = [super initWithCallbacks: callbacks andEngineRef: engineRef];
+    if (self)
+    {
+        // do any additional initialization
+    }
+    return self;
 }
 
 - (void)dealloc
 {
-	[mUserName release];
-	[super dealloc];
+    [mUserName release];
+    [super dealloc];
 }
 
 @end
